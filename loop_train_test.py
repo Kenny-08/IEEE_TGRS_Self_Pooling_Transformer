@@ -100,6 +100,7 @@ def test(model, X_PCAMirror, Y, test_set, dataset_name='PU', patch_size=9):
                                      patch_size=patch_size, batch_size=64,
                                      shuffle=False, mode='test')
         for x, y in test_loader:
+            # print(x, y)
             x = torch.Tensor(x)
             x = x.to(device)
             y_hat = model(x)
@@ -109,8 +110,9 @@ def test(model, X_PCAMirror, Y, test_set, dataset_name='PU', patch_size=9):
     print('Testing model consumes %.2f seconds' % (time.time() - t))
 
     class_dict = dataset_class_dict.get(dataset_name)
-    y_true = [class_dict[i] for i in y_true]
-    y_pred = [class_dict[i] for i in y_pred]
+    y_true = [class_dict[int(i)] for i in y_true]
+    y_pred = [class_dict[int(i)] for i in y_pred]
+    print(y_true, y_pred)
     cm = confusion_matrix(y_true, y_pred, labels=class_dict)
     # print(cm)
     oa = accuracy_score(y_true, y_pred)
