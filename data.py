@@ -1,6 +1,7 @@
 import scipy.io as sio
 import numpy as np
 import cv2
+import mat73
 
 dataset_path = {
 
@@ -23,8 +24,8 @@ dataset_path = {
     'ZY_HHK': {'corrected': './datasets/ZY_HHK/ZY_hhk.mat',
             'gt': './datasets/ZY_HHK/ZY_hhk_gt.mat'},
 
-    'Houston': {'corrected': './datasets/Houston/Houston.mat',
-                'gt': './datasets/Houston/Houston_gt.mat'}
+    'Houston': {'corrected': '/content/drive/MyDrive/Data/Houston18.mat',
+                'gt': '/content/drive/MyDrive/Data/Houston18_7gt.mat'}
 
 }
 
@@ -46,7 +47,8 @@ dataset_size_dict = {
     'KSC': [512, 614, 176],
     'Botswana': [1476, 256, 145],
     'ZY_HHK': [1147, 1600, 119],
-    'Houston': [349, 1905, 144],
+    # 'Houston': [349, 1905, 144],
+    'Houston': [210, 954, 48]
 }
 
 dataset_class_dict = {
@@ -80,7 +82,6 @@ dataset_class_dict = {
     'Houston': ["Healthy grass", "Stressed grass", "Synthetic grass", "Trees", "Soil", "Water", "Residential",
                 "Commercial", "Road", "Highway", "Railway", "Parking Lot1", "Parking Lot2", "Tennis court",
                 "Running track"],
-
 }
 
 color_map_dict = {
@@ -140,11 +141,15 @@ def load_dataset(dataset_name: str, key: int):
           1: 'corrected',
           2: 'gt'}
     path = dataset_path[dataset_name]
-    data = sio.loadmat(path[kv[key]])
+    if dataset_name  == 'Houston':
+      data = mat73.loadmat(path[kv[key]])
+    else:
+      data = sio.loadmat(path[kv[key]])
+    print('__________________________________')
     for item in data.items():
         if type(item[1]) is np.ndarray:
+            print(key, item[1].size)
             return item[1]
-
 
 default_mirror_width = 35
 def mirror_concatenate(x, mirror_width=default_mirror_width):
@@ -254,10 +259,11 @@ def split_train_test_set(Y, dataset_name='PU', train_num=5, batch_size=64, seed=
         pass
 
     n_class = Y.max()
+    print(n_class)
     train_set, test_set = [], []
 
     random_state = np.random.RandomState(seed=seed)
-    for i in range(1, n_class + 1):
+    for i in range(1, int(n_class) + 1):
         index = np.where(Y == i)[0]
         #  variable n_data is used only when data is split by percentage rule.
         n_data = index.shape[0]
