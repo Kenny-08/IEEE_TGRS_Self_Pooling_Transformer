@@ -25,7 +25,22 @@ dataset_path = {
             'gt': './datasets/ZY_HHK/ZY_hhk_gt.mat'},
 
     'Houston': {'corrected': '/content/drive/MyDrive/Data/Houston18.mat',
-                'gt': '/content/drive/MyDrive/Data/Houston18_7gt.mat'}
+                'gt': '/content/drive/MyDrive/Data/Houston18_7gt.mat'},
+
+    'HanChuan': {
+      'corrected': '/content/drive/MyDrive/Data/WHU data/WHU-Hi-HanChuan/WHU_Hi_HanChuan.mat',
+      'gt': '/content/drive/MyDrive/Data/WHU data/WHU-Hi-HanChuan/WHU_Hi_HanChuan_gt.mat'
+    },
+
+    'HongHu': {
+      'corrected': '/content/drive/MyDrive/Data/WHU data/WHU-Hi-HongHu/WHU_Hi_HongHu.mat', 
+      'gt': '/content/drive/MyDrive/Data/WHU data/WHU-Hi-HongHu/WHU_Hi_HongHu_gt.mat'
+    },
+
+    'LongKou': {
+      'corrected': '/content/drive/MyDrive/Data/WHU data/WHU-Hi-LongKou/WHU_Hi_LongKou.mat',
+      'gt': '/content/drive/MyDrive/Data/WHU data/WHU-Hi-LongKou/WHU_Hi_LongKou_gt.mat'
+    },
 
 }
 
@@ -37,7 +52,10 @@ dataset_name_dict = {
     'KSC': 'KSC',
     'Botswana': 'Botswana',
     'HHK': 'HuangHeKou',
-    'Houston': 'Houston_University'
+    'Houston': 'Houston_University',
+    'HanChuan' : 'WHU-Hi-HanChuan',
+    'HongHu' : 'WHU-Hi-HongHu',
+    'LongKou': 'WHU-Hi-LongKou', 
 }
 
 dataset_size_dict = {
@@ -48,7 +66,10 @@ dataset_size_dict = {
     'Botswana': [1476, 256, 145],
     'ZY_HHK': [1147, 1600, 119],
     # 'Houston': [349, 1905, 144],
-    'Houston': [210, 954, 48]
+    'Houston': [210, 954, 48],
+    'HanChuan': [1217, 303, 274],
+    'HongHu': [940, 475, 270],
+    'LongKou': [550, 400, 270],
 }
 
 dataset_class_dict = {
@@ -82,6 +103,19 @@ dataset_class_dict = {
     'Houston': ["Healthy grass", "Stressed grass", "Synthetic grass", "Trees", "Soil", "Water", "Residential",
                 "Commercial", "Road", "Highway", "Railway", "Parking Lot1", "Parking Lot2", "Tennis court",
                 "Running track"],
+
+    'HanChuan': ["Strawberry", "Cowpea", "Soybeans", "Sorghum", "Water spinach", "Watermelon",
+                "Greens", "Trees", "Grass", "Red roof", "Gray roof", "Plastic", "Bare soil", "Road", "Bright object", "Water"  ],
+
+    'HongHu': ["Red roof", "Road", "Bare soil", "Cotton", "Cotton firewood", "Rape", "Chinese cabbage",
+                "Pakchoi", "Cabbage", "Tuber mustard", "Brassica parachinensis", "Brassica chinensis",
+                "Small Brassica chinensis", "Lactuca sativa", "Celtuce", "Film covered lettuce", "Romaine lettuce",
+                "Carrot", "White radish", "Garlic sprout", "Broad beans", "Tree"   ],
+
+    'LongKou': ["Corn", "Cotton", "Sesame", "Broad-leaf soyabean", "Narrow-leaf soyabean", "Rice", 
+                  "Water", "Roads and houses", "Mixed weed"],
+
+
 }
 
 color_map_dict = {
@@ -145,10 +179,9 @@ def load_dataset(dataset_name: str, key: int):
       data = mat73.loadmat(path[kv[key]])
     else:
       data = sio.loadmat(path[kv[key]])
-    print('__________________________________')
+   
     for item in data.items():
         if type(item[1]) is np.ndarray:
-            print(key, item[1].size)
             return item[1]
 
 default_mirror_width = 35
