@@ -128,13 +128,28 @@ def HU_experiment(hp: dict):
     batch_size, lr, epoch, out_channel, decay_step = resolve_hp(hp)
     train_ae(X, batch_size=batch_size, lr=lr, epoches=epoch, out_channel=out_channel, decay_step=decay_step)
 
+def LongKou_experiment(hp: dict):
+    X = load_dataset(dataset_name='LongKou', key=1)
+    batch_size, lr, epoch, out_channel, decay_step = resolve_hp(hp)
+    train_ae(X, batch_size=batch_size, lr=lr, epoches=epoch, out_channel=out_channel, decay_step=decay_step)
+
+def HanChuan_experiment(hp: dict):
+    X = load_dataset(dataset_name='HanChuan', key=1)
+    batch_size, lr, epoch, out_channel, decay_step = resolve_hp(hp)
+    train_ae(X, batch_size=batch_size, lr=lr, epoches=epoch, out_channel=out_channel, decay_step=decay_step)
+
+def HongHu_experiment(hp: dict):
+    X = load_dataset(dataset_name='HongHu', key=1)
+    batch_size, lr, epoch, out_channel, decay_step = resolve_hp(hp)
+    train_ae(X, batch_size=batch_size, lr=lr, epoches=epoch, out_channel=out_channel, decay_step=decay_step)
+
 
 if __name__ == '__main__':
     delete_pt_file()
     hyperparameter_pu = {
         'batch_size': 64,
         'lr': 1e-2,
-        'epoch': 50,
+        'epoch': 150,
         'out_channel': 32,
         'decay_step': 800,
     }
@@ -143,7 +158,7 @@ if __name__ == '__main__':
     hyperparameter_ip = {
         'batch_size': 128,
         'lr': 1e-2,
-        'epoch': 20,
+        'epoch': 120,
         'out_channel': 40,
         'decay_step': 20,
     }
@@ -152,7 +167,7 @@ if __name__ == '__main__':
     hyperparameter_salinas = {
         'batch_size': 128,
         'lr': 1e-2,
-        'epoch': 50,
+        'epoch': 150,
         'out_channel': 40,
         'decay_step': 200,
     }
@@ -161,8 +176,35 @@ if __name__ == '__main__':
     hyperparameter_hu = {
         'batch_size': 128,
         'lr': 1e-2,
-        'epoch': 50,
+        'epoch': 150,
         'out_channel': 32,
         'decay_step': 1000,
     }
     HU_experiment(hp=hyperparameter_hu)
+
+    hyperparameter_longkou = {
+        'batch_size': 128,
+        'lr': 1e-2,
+        'epoch': 100,
+        'out_channel': 32,
+        'decay_step': 1000,
+    }
+    LongKou_experiment(hp=hyperparameter_longkou)
+
+    hyperparameter_hanchuan = {
+        'batch_size': 128,
+        'lr': 1e-2,
+        'epoch': 100,
+        'out_channel': 32,
+        'decay_step': 1000,
+    }
+    HanChuan_experiment(hp=hyperparameter_hanchuan)
+
+    hyperparameter_honghu = {
+        'batch_size': 128,
+        'lr': 1e-2,
+        'epoch': 100,
+        'out_channel': 32,
+        'decay_step': 1000,
+    }
+    HongHu_experiment(hp=hyperparameter_honghu)
